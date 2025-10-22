@@ -30,6 +30,19 @@ set_rank(model, 16)
 print(model.generate(**tokenizer("Hello", return_tensors="pt")))
 ```
 
+Alternatively, ``cli/nsn_infer.py`` can now wrap and run inference in a single
+step. When pointed at a standard Hugging Face identifier it will adapt the
+model automatically if required. GGUF checkpoints are also supported when a
+tokenizer is provided:
+
+```bash
+python -m cli.nsn_infer \
+  --model ./models/llama-gguf-q4_0.gguf \
+  --tokenizer path/to/tokenizer \
+  --prompt "Hello" \
+  --target-flops 0.5
+```
+
 ## Key Features
 
 - **Post-hoc adaptation** via `nsn.wrap.replace_linear_with_nsn` or the

@@ -16,6 +16,18 @@ def iter_nsn_modules(module: nn.Module) -> Iterable[NSNLinear]:
             yield submodule
 
 
+def count_nsn_modules(module: nn.Module) -> int:
+    """Return the number of :class:`NSNLinear` layers in ``module``."""
+
+    return sum(1 for _ in iter_nsn_modules(module))
+
+
+def is_nsn_model(module: nn.Module) -> bool:
+    """Return ``True`` if ``module`` already contains NSN layers."""
+
+    return count_nsn_modules(module) > 0
+
+
 def set_rank(module: nn.Module, rank: int) -> None:
     """Set the active rank of every :class:`NSNLinear` within ``module``."""
 
@@ -41,4 +53,11 @@ def ensure_same_dtype(tensor: torch.Tensor, other: torch.Tensor) -> torch.Tensor
     return tensor
 
 
-__all__ = ["set_rank", "get_rank", "iter_nsn_modules", "ensure_same_dtype"]
+__all__ = [
+    "set_rank",
+    "get_rank",
+    "iter_nsn_modules",
+    "ensure_same_dtype",
+    "count_nsn_modules",
+    "is_nsn_model",
+]
